@@ -1,0 +1,18 @@
+- name: get instance information
+  amazon.aws.ec2_metadata_facts:
+
+#- name: get instance tags
+#  amazon.aws.ec2_tag_info:
+#    region: "{{ ansible_ec2_placement_region }}"
+#    resource: "{{ ansible_ec2_instance_id }}"
+#  register: instance_tags
+
+- name: set instance rocksdb block size
+  set_fact:
+    kava_instance_rocks_db_block_size: "{{ autoscaling_group_tags.KavaInstanceRocksDBBlockSize }}"
+  when: autoscaling_group_tags.KavaInstanceRocksDBBlockSize is defined
+
+- name: set instance zfs record size
+  set_fact:
+    kava_instance_zfs_record_size: "{{ autoscaling_group_tags.KavaInstanceZFSRecordSize }}"
+  when: autoscaling_group_tags.KavaInstanceZFSRecordSize is defined
